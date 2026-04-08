@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="row"> 
+    @for (product of products; track product.id) {
+      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <app-product-card [product]="product"></app-product-card>
+      </div>
+    } @empty {
+      <div class="col-12">
+        <p>No products found.</p>
+      </div>
+    }
+  </div>
+</div>
