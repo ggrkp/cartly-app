@@ -14,9 +14,9 @@ export class ProductList {
 
   products: Product[] = [];
 
-  ngOnInit() {
-    this.productApi.getProducts().subscribe((response) => {
-      this.products = response._embedded.products;
+  ngOnInit(): void {
+    this.productApi.getProducts().subscribe((products) => {
+      this.products = products;
     });
   }
 }
