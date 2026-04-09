@@ -13,14 +13,21 @@ export class ProductApi {
   http = inject(HttpClient);
   private baseUrl = 'http://localhost:8080/api/products';
 
-  getProducts(categoryId: number | null): Observable<Product[]> {
-    // Determine the URL based on whether we have a categoryId
-    const url = categoryId
-      ? `${this.baseUrl}/search/findByCategoryId?id=${categoryId}`
-      : this.baseUrl;
-
+  getProducts(): Observable<Product[]> {
     return this.http
-      .get<ProductResponse>(url)
+      .get<ProductResponse>(`${this.baseUrl}`)
+      .pipe(map((response: ProductResponse) => response._embedded.products));
+  }
+
+  getProductsByKeyword(keyword: string): Observable<Product[]> {
+    return this.http
+      .get<ProductResponse>(`${this.baseUrl}/search/findByNameContaining?name=${keyword}`)
+      .pipe(map((response: ProductResponse) => response._embedded.products));
+  }
+
+  getProductsByCategory(categoryId: number): Observable<Product[]> {
+    return this.http
+      .get<ProductResponse>(`${this.baseUrl}/search/findByCategoryId?id=${categoryId}`)
       .pipe(map((response: ProductResponse) => response._embedded.products));
   }
 
