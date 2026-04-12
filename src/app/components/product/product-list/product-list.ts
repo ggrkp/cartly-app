@@ -18,7 +18,6 @@ import { PRODUCT_SEARCH_HANDLERS } from '../../../service/search-handlers/produc
   styleUrl: './product-list.scss',
 })
 export class ProductList {
-  private productApi = inject(ProductApi);
   private activatedRoute = inject(ActivatedRoute);
   private searchHandlers = inject(PRODUCT_SEARCH_HANDLERS);
 
@@ -33,8 +32,16 @@ export class ProductList {
           return handler!.handle(params);
         }),
       )
-      .subscribe((data: Product[]) => {
-        this.products.set(data);
-      });
+      .subscribe(
+        {
+          next: (data) => {
+            this.products.set(data);
+          },
+          error: (err) => {
+            console.error('Error fetching products:', err);
+            this.products.set([]);
+          },
+        }
+      );
   }
 }

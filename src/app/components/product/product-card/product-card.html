@@ -5,6 +5,6 @@
     <p class="card-text">
       {{ product().unitPrice | currency }} - {{ product().stockUnits }} in stock
     </p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+    <a href="/products/{{ product().id }}" class="btn btn-primary">Go somewhere</a>
   </div>
 </div>

@@ -1,1 +1,7 @@
-<p>product-details works!</p>
+@if (product(); as prod) {
+  <h1>Product Details: product name: {{ prod.name }}</h1>
+} @else if (isLoading()) {
+  <p>Loading...</p>
+} @else {
+  <p>Not found</p>
+}

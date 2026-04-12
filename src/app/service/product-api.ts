@@ -19,6 +19,10 @@ export class ProductApi {
       .pipe(map((response: ProductResponse) => response._embedded.products));
   }
 
+  getProduct(productId: number): Observable<Product> {
+    return this.http.get<Product>(`${this.baseUrl}/${productId}`);
+  }
+
   getProductsByKeyword(keyword: string): Observable<Product[]> {
     return this.http
       .get<ProductResponse>(`${this.baseUrl}/search/findByNameContaining?name=${keyword}`)
