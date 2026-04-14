@@ -1,10 +1,10 @@
 import { Observable } from 'rxjs';
 import { ProductApi } from '../product-api';
-import { Product } from '../../model/product';
 import { inject } from '@angular/core';
 import { ProductSearchHandler } from './ProductSearchHandler';
 import { ParamMap } from '@angular/router';
 import { Injectable } from '@angular/core';
+import { ProductResponse } from '../../model/product-response';
 
 @Injectable({ providedIn: 'root' })
 export class NoFilterSearchHandler implements ProductSearchHandler {
@@ -13,7 +13,7 @@ export class NoFilterSearchHandler implements ProductSearchHandler {
   canHandle(params: ParamMap): boolean {
     return true;
   }
-  handle(): Observable<Product[]> {
-    return this.productApi.getProducts();
+  handle(params: ParamMap, currentPage: number): Observable<ProductResponse> {
+    return this.productApi.getProducts(Number(currentPage));
   }
 }

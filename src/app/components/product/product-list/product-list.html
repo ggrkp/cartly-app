@@ -9,5 +9,10 @@
         <p>No products found.</p>
       </div>
     }
+    <app-pagination
+      (pageChanged)="onPageChange($event)"
+      [currentPage]="currentPage()"
+      [totalPages]="totalPages()"
+    />
   </div>
 </div>

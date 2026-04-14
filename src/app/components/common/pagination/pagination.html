@@ -1,9 +1,17 @@
 <nav>
   <ul class="pagination">
-    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    <!-- <li class="page-item"><a class="page-link" href="#">Previous</a></li> -->
+    @for (index of totalPagesArray(); track $index) {
+      <li class="page-item">
+        <button
+          (click)="onPageClick(index, $event)"
+          class="page-link"
+          [class.active]="index === currentPage()"
+        >
+          {{ index }}
+        </button>
+      </li>
+    }
+    <!-- <li class="page-item"><a class="page-link" href="#">Next</a></li> -->
   </ul>
 </nav>

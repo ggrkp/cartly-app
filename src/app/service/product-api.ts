@@ -1,43 +1,59 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { Product } from '../model/product';
 import { ProductResponse } from '../model/product-response';
-import { Category } from '../model/category';
+import { Product } from '../model/product';
 import { CategoryResponse } from '../model/category-response';
+import { Category } from '../model/category';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductApi {
-  http = inject(HttpClient);
+  private http = inject(HttpClient);
   private baseUrl = 'http://localhost:8080/api/products';
+  private categoryUrl = 'http://localhost:8080/api/product-category';
 
-  getProducts(): Observable<Product[]> {
-    return this.http
-      .get<ProductResponse>(`${this.baseUrl}`)
-      .pipe(map((response: ProductResponse) => response._embedded.products));
+  getProducts(page: number, size: number = 10): Observable<ProductResponse> {
+    const url = `${this.baseUrl}?page=${page}&size=${size}`;
+    return this.http.get<ProductResponse>(url);
   }
 
   getProduct(productId: number): Observable<Product> {
     return this.http.get<Product>(`${this.baseUrl}/${productId}`);
   }
 
-  getProductsByKeyword(keyword: string): Observable<Product[]> {
-    return this.http
-      .get<ProductResponse>(`${this.baseUrl}/search/findByNameContaining?name=${keyword}`)
-      .pipe(map((response: ProductResponse) => response._embedded.products));
+  getProductsByKeyword(
+    keyword: string,
+    page: number,
+    size: number = 10,
+  ): Observable<ProductResponse> {
+    const url = `${this.baseUrl}/search/findByNameContaining`;
+    const params = new HttpParams()
+      .set('name', keyword)
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<ProductResponse>(url, { params });
   }
 
-  getProductsByCategory(categoryId: number): Observable<Product[]> {
-    return this.http
-      .get<ProductResponse>(`${this.baseUrl}/search/findByCategoryId?id=${categoryId}`)
-      .pipe(map((response: ProductResponse) => response._embedded.products));
+  getProductsByCategory(
+    categoryId: number,
+    page: number,
+    size: number = 10,
+  ): Observable<ProductResponse> {
+    const url = `${this.baseUrl}/search/findByCategoryId`;
+    const params = new HttpParams()
+      .set('id', categoryId.toString())
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<ProductResponse>(url, { params });
   }
 
   getCategories(): Observable<Category[]> {
     return this.http
-      .get<CategoryResponse>('http://localhost:8080/api/product-category')
-      .pipe(map((response: CategoryResponse) => response._embedded.productCategory));
+      .get<CategoryResponse>(this.categoryUrl)
+      .pipe(map((response) => response._embedded.productCategory));
   }
 }
