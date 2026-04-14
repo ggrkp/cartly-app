@@ -3,10 +3,11 @@ import { ProductApi } from '../../../service/product-api';
 import { Product } from '../../../model/product';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { CurrencyPipe, DatePipe, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-product-details',
-  imports: [],
+  imports: [CurrencyPipe, DatePipe, NgClass],
   templateUrl: './product-details.html',
   styleUrl: './product-details.scss',
 })
