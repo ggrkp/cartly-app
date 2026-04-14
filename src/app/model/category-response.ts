@@ -1,4 +1,5 @@
 import { Category } from './category';
+import { Page } from './page';
 
 export interface CategoryResponse {
   _embedded: {
@@ -12,10 +13,5 @@ export interface CategoryResponse {
       href: string;
     };
   };
-  page: {
-    size: number;
-    totalElements: number;
-    totalPages: number;
-    number: number;
-  };
+  page: Page;
 }

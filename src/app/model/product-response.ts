@@ -1,3 +1,4 @@
+import { Page } from './page';
 import { Product } from './product';
 
 export interface ProductResponse {
@@ -12,10 +13,5 @@ export interface ProductResponse {
       href: string;
     };
   };
-  page: {
-    size: number;
-    totalElements: number;
-    totalPages: number;
-    number: number;
-  };
+  page: Page;
 }
